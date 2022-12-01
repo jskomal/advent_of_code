@@ -5,11 +5,11 @@ const day2a = async () => {
   const lines = fileData.toString().split('\n')
   const dimensions = lines.map((line: string) => line.split('x'))
   const totalWrapping = dimensions.reduce((acc: number, order: string[]) => {
-    const lw = 2 * parseInt(order[0]) * parseInt(order[1])
-    const wh = 2 * parseInt(order[0]) * parseInt(order[2])
-    const lh = 2 * parseInt(order[1]) * parseInt(order[2])
-    const smallest = Math.min(...[lw / 2, wh / 2, lh / 2])
-    acc += lw + wh + lh + smallest
+    const lw = parseInt(order[0]) * parseInt(order[1])
+    const wh = parseInt(order[0]) * parseInt(order[2])
+    const lh = parseInt(order[1]) * parseInt(order[2])
+    const smallest = Math.min(...[lw, wh, lh])
+    acc += 2 * lw + 2 * wh + 2 * lh + smallest
     return acc
   }, 0)
 
