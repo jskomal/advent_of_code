@@ -37,9 +37,7 @@ const rockPaperScissors = async () => {
     return matchScore + choicePoints[player]
   }
 
-  const result = lines.reduce((acc: number, line) => {
-    return acc + determineOutcome(line)
-  }, 0)
+  const result = lines.reduce((acc, line) => acc + determineOutcome(line), 0)
 
   console.log(result)
 }
@@ -95,14 +93,11 @@ const rockPaperScissors2 = async () => {
   const determineOutcome = (line: string) => {
     const opponent = strategy[line[0]]
     const outcome = line[2]
-
     const matchScore = determinePlayerPoints(opponent, outcome)
     return matchScore + outcomes[outcome]
   }
 
-  const result = lines.reduce((acc: number, line) => {
-    return acc + determineOutcome(line)
-  }, 0)
+  const result = lines.reduce((acc, line) => acc + determineOutcome(line), 0)
 
   console.log(result)
 }
