@@ -71,7 +71,6 @@ const rockPaperScissors2 = async () => {
     switch (outcome) {
       case 'Y':
         return choicePoints[opponent]
-        break
       case 'Z':
         if (opponent === 'rock') {
           return choicePoints.paper
@@ -80,7 +79,6 @@ const rockPaperScissors2 = async () => {
         } else {
           return choicePoints.rock
         }
-        break
       case 'X':
         if (opponent === 'rock') {
           return choicePoints.scissors
@@ -89,7 +87,6 @@ const rockPaperScissors2 = async () => {
         } else {
           return choicePoints.paper
         }
-        break
       default:
         throw Error('unexpected match outcome')
     }
