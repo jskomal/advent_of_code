@@ -100,11 +100,6 @@ const rockPaperScissors2 = async () => {
     return matchScore + outcomes[outcome]
   }
 
-  for (const match of lines) {
-    determineOutcome(match)
-    break
-  }
-
   const result = lines.reduce((acc: number, line) => {
     return acc + determineOutcome(line)
   }, 0)
