@@ -7,13 +7,17 @@ let totalOverlapCount = 0
 let anyOverlapCount = 0
 
 for (const line of lines) {
-  const firstInstruct = line.split(',')[0].split('-')
-  const secondInstruct = line.split(',')[1].split('-')
+  const firstInstruct = line
+    .split(',')[0]
+    .split('-')
+    .map((num) => parseInt(num, 10))
+  const secondInstruct = line
+    .split(',')[1]
+    .split('-')
+    .map((num) => parseInt(num, 10))
   if (
-    (parseInt(firstInstruct[0]) >= parseInt(secondInstruct[0]) &&
-      parseInt(firstInstruct[1]) <= parseInt(secondInstruct[1])) ||
-    (parseInt(firstInstruct[0]) <= parseInt(secondInstruct[0]) &&
-      parseInt(firstInstruct[1]) >= parseInt(secondInstruct[1]))
+    (firstInstruct[0] >= secondInstruct[0] && firstInstruct[1] <= secondInstruct[1]) ||
+    (firstInstruct[0] <= secondInstruct[0] && firstInstruct[1] >= secondInstruct[1])
   ) {
     totalOverlapCount++
   }
