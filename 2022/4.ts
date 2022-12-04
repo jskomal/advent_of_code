@@ -1,6 +1,6 @@
 import fs from 'fs'
 
-const fileData = await fs.readFileSync('./2022/4.txt')
+const fileData = fs.readFileSync('./2022/4.txt')
 const lines: string[] = fileData.toString().split('\n')
 
 let totalOverlapCount = 0
@@ -21,17 +21,7 @@ for (const line of lines) {
   ) {
     totalOverlapCount++
   }
-}
-
-for (const line of lines) {
-  const firstInstruct = line
-    .split(',')[0]
-    .split('-')
-    .map((num) => parseInt(num, 10))
-  const secondInstruct = line
-    .split(',')[1]
-    .split('-')
-    .map((num) => parseInt(num, 10))
+  // part 2
   const seen: { [key: string]: boolean } = {}
   for (let i = 0; i <= firstInstruct[1] - firstInstruct[0]; i++) {
     seen[firstInstruct[0] + i] = true
