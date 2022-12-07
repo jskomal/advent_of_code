@@ -1,6 +1,6 @@
 import fs from 'fs'
 
-const fileData = fs.readFileSync('./2022/7-test.txt')
+const fileData = fs.readFileSync('./2022/7.txt')
 const lines = fileData.toString().split('\n')
 
 /* 
@@ -18,14 +18,18 @@ class FileTreeNode {
   fileSize: number
   parent: FileTreeNode | null
   descendants: FileTreeNode[] | null
-  isFirstLevelDir: boolean
+  isDir: boolean
+  isDirInRoot: boolean
+  dirSums: number[]
 
   constructor(path: string, fileSize = 0, parent: FileTreeNode | null) {
     this.path = path
     this.fileSize = fileSize
     this.parent = parent
     this.descendants = null
-    this.isFirstLevelDir = this.parent?.parent === null ? true : false
+    this.isDir = this.fileSize === 0
+    this.isDirInRoot = this.parent?.parent === null && this.isDir
+    this.dirSums = []
   }
 
   addDescendant = (path: string, fileSize = 0) => {
@@ -41,16 +45,37 @@ class FileTreeNode {
     return this.descendants.find((node) => node.path === path)
   }
 
-  calculateSumUnderTarget = (target: number) => {
-    const dirSums: number[] = []
+  countDirsInRoot = () => {
+    return this.descendants?.filter((node) => node.isDirInRoot).length
+  }
 
-    // create tempSum for directory
-    // if fileSize === 0, go deeper
+  sumDir = (target: FileTreeNode) => {
+    if (target.descendants) {
+      return target.descendants.reduce((acc, node) => {
+        let recursiveSum = 0
+        if (node.isDir) recursiveSum = target.sumDir(node)
+        return acc + node.fileSize + recursiveSum
+      }, 0)
+    } else {
+      return 0
+    }
+  }
 
-    // else, add filesize to tempSum,
+  populateDirSums = () => {
+    if (this.descendants) {
+      for (const node of this.descendants) {
+        if (node.isDir) this.dirSums.push(this.sumDir(node))
+      }
+    }
+  }
 
-    // filter the dirSums to <= target
-    // return filtered sum
+  sumDirsUnderTarget = (target: number) => {
+    this.populateDirSums()
+    return this.dirSums.reduce((acc, num) => {
+      if (num <= target) {
+        return acc + num
+      } else return acc
+    }, 0)
   }
 }
 
@@ -92,4 +117,4 @@ for (let i = 1; i < lines.length; i++) {
   }
 }
 
-console.log(fileDir.descendants)
+console.log(fileDir.sumDirsUnderTarget(100_000))
