@@ -109,10 +109,21 @@ for (const dir of directories) {
   let size = dir.getSize(dir)
   if (size <= 100_000) sum += size
 }
+console.log(sum)
 
+// Part 2
 const totalPossible = 70_000_000
 const neededFreeSpace = 30_000_000
-
 //find the smallest dir that would free up neededFreeSpace
 
-console.log(sum)
+const totalSizeUsed = fileDir.getSize(fileDir)
+const spaceLeft = totalPossible - totalSizeUsed
+const spaceRequired = neededFreeSpace - spaceLeft
+const possibleDirSizesForDeletion: number[] = []
+for (const dir of directories) {
+  if (dir.getSize(dir) >= spaceRequired) {
+    possibleDirSizesForDeletion.push(dir.getSize(dir))
+  }
+}
+const sortedDirs = possibleDirSizesForDeletion.sort((a, b) => a - b)
+console.log(sortedDirs[0])
